@@ -40,19 +40,28 @@ const Todolist: React.FC<TodolistProps> = (props) => {
   // Handlers
 
   // Markup
-  const { data } = useQuery(GET_TODOLIST);
-  const [addTask] = useMutation(ADD_TASK);
-  const [removeTask] = useMutation(REMOVE_TASK);
-  const [modifyTask] = useMutation(MODIFY_TASK);
-  const [upOrDownTask] = useMutation(UP_OR_DOWN_TASK);
+  const addTask = () => {};
+
+  const removeTask = () => {};
+
+  const modifyTask = () => {};
+
+  const upOrDownTask = () => {};
+
+  const httpGet = async (url: string) => {
+    const response = await fetch(url, {
+      method: "GET",
+    });
+    return response.json();
+  };
 
   const renderTasks = () => {
-    let indexTodolist = "";
-    for (const index in data.todolists) {
-      if (data.todolists[index]["todolist"]["title"] === day)
-        indexTodolist = index;
-    }
-    //console.log(data.todolists[indexTodolist]["todolist"].tasks);
+    let url = "http://localhost:3000/todolists/";
+    url = url.concat(day);
+    const data = httpGet(url).then((value) => {
+      return value;
+    });
+    console.log(data);
     return data.todolists[indexTodolist].todolist.tasks.map(
       (task: TaskType, index: number) => {
         const { id, text } = task;
